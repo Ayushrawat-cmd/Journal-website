@@ -17,7 +17,7 @@ export async function POST(request: NextRequest){
         return NextResponse.json({message:'Successfully logged in'},{status:200});
     }
     catch(error:any){   
-        NextResponse.json({error:error.message}, {status:500});
+        return NextResponse.json({error:error.message}, {status:500});
     }
 };
 
