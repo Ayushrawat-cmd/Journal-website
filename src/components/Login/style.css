@@ -31,18 +31,27 @@ animation: bodyTranslate 0.4s ease-in-out forwards ;
 /* //////////////////////////////////////////// */
 
 
-
-
-/* End body rules */
-
-/* Start form  attributes */
-form {
+.container {
     width: 450px;
     min-height: 500px;
     height: auto;
     border-radius: 5px;
     margin: 2% auto;
     box-shadow: 0 9px 50px hsla(0, 0%, 0%, 0.645);
+    padding: 2%;
+    background-image: linear-gradient(-225deg, #fdfcf2 50%, #d89ef8 50%);
+  }
+
+/* End body rules */
+
+/* Start form  attributes */
+form {
+    /* width: 450px; */
+    min-height: 500px;
+    height: auto;
+    border-radius: 5px;
+    margin: 2% auto;
+    /* box-shadow: 0 9px 50px hsla(0, 0%, 0%, 0.645); */
     padding: 2%;
     background-image: linear-gradient(-225deg, #fdfcf2 50%, #d89ef8 50%);
 }

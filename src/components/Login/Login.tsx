@@ -38,9 +38,9 @@ export default function Login() {
   const emailClasses = emailHasError?'form-input invalid':'form-input';
   const passwordClasses = passwordHasError?'form-input invalid':'form-input';
   return (
-    <div className='overlay'>
+    <section className='container'>
+    <form onSubmit={submitHandler}>
       {/* <!-- LOGN IN FORM by Omar Dsoky --> */}
-      <form onSubmit={submitHandler}>
         {/* <!--   con = Container  for items in the form--> */}
         <div className="con">
           {/* <!--     Start  header Content  --> */}
@@ -130,6 +130,6 @@ export default function Login() {
           </div>
         </div>
       </form>
-    </div>
+    </section>
   );
 }

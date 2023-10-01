@@ -86,9 +86,9 @@ export default function Navbar() {
         </div>
         
         <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
-          <a href="#" className="text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full">
+          <Link href="/signup" className="text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full">
             Signup <span aria-hidden="true">&rarr;</span>
-          </a>
+          </Link>
         </div>
         <div className="hidden lg:flex  lg:justify-end ml-2  ">
           <Link href="/login" className="text-base font-semibold leading-6 text-white bg-blue-500 border-2 border-blue-500 hover:border-2 hover:border-blue-500 hover:bg-transparent hover:text-black py-2 px-4 rounded-full">
