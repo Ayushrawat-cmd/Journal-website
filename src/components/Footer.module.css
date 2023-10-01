@@ -1,0 +1,118 @@
+/* *,*:before,*:after{
+    box-sizing: border-box;
+} */
+.footer-body{
+    font-family: poppins;
+    margin: 0;
+    display:grid;
+    font-size: 14px;
+}
+.footer-main{
+    display: -webkit-box;
+    display:-moz-flex;  
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    color: rgb(53, 53, 230);
+    line-height: 3.8;
+    font-size: 80px;
+    text-transform: uppercase;
+    font-weight:bold;
+}
+.footer{
+    display: -webkit-box;
+    display:-moz-flex;  
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    flex-flow: row wrap;
+    padding: 50px;
+    padding-bottom: 0px;
+    color: #fff;
+    /*background-color: #011c39;*/
+    background: linear-gradient( -2deg, #011c39,#3a90ec);
+    
+}
+.footer > *{
+    flex: 1 100%;
+}
+.footer-left{
+    margin-right:1.25em;
+    margin-bottom:0.2em;
+}
+.footer h3{
+    font-weight: 600;
+    font-size: 17px;
+}
+.footer ul{
+    list-style: none;
+    padding-left: 0;
+}
+.footer li{
+    line-height: 1.5em;
+}
+.footer a{
+    text-decoration: none;
+}
+.footer-right{
+    display: -webkit-box;
+    display:-moz-flex;  
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    flex-flow: row wrap;
+}
+.footer-right > *{
+    flex: 1 50%;
+    margin-right:1.25em;
+}
+.box a{
+    color: #cfcccc;
+}
+.footer-bottom{
+    
+    text-align: center;
+    color: #999;
+    padding-top: 10px;
+    font-size: 20px;
+}
+.footer-left p{
+    padding-right: 20%;
+    font-size: 20px;
+    color: #eeeded;
+}
+.socials a{
+    
+    width: 40px;
+    height: 40px;
+    display: inline;
+    margin-right: 10px;
+}
+.socials a i{
+    color: #e7f2f4;
+    padding: 8px 2px;
+    font-size: 22px;
+}
+
+@media screen and (min-width:680px){
+    .footer-right > *{
+        flex: 1;
+    }
+    .footer-left{
+        flex:1 0px;
+    }
+    .footer-right{
+        flex: 2 0px;
+    }
+}
+
+@media( max-width:600px){
+    .footer{
+        padding: 15px;
+    }
+    .footer-main{
+        font-size: 55px;
+    }
+}

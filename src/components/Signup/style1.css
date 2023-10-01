@@ -1,0 +1,125 @@
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background-image: linear-gradient(-225deg, #f0cbfb 0%, #fecbf6 100%);
+  background-image: linear-gradient(to top, #f2e1fb 0%, #f4d4f9 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  font-family: 'Poppins', sans-serif;
+  opacity: .95;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  /*background: rgb(130, 106, 251);*/
+}
+.container {
+  width: 450px;
+  min-height: 500px;
+  height: auto;
+  border-radius: 5px;
+  margin: 2% auto;
+  box-shadow: 0 9px 50px hsla(0, 0%, 0%, 0.645);
+  padding: 2%;
+  background-image: linear-gradient(-225deg, #fdfcf2 50%, #d89ef8 50%);
+}
+.container header {
+  margin: 2% auto 1% auto;
+  text-align: center;
+}
+
+header h2 {
+  font-size: 250%;
+  font-family: 'Playfair Display', serif;
+  color: #3e403f;
+}
+
+.container .form {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+  justify-content: space-around;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+.form .input-box {
+  width: 100%;
+  margin-top: 20px;
+  font-family: 'Abel', sans-serif;
+}
+.input-box label {
+  color: #5E6472;
+  font-family: 'Abel', sans-serif;
+}
+.form :where(.input-box input, .select-box) {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  outline: none;
+  font-size: 1rem;
+  color: #707070;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0 15px;
+}
+.input-box input:focus {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.form .column {
+  display: flex;
+  column-gap: 15px;
+}
+
+
+.address :where(input, .select-box) {
+  margin-top: 15px;
+}
+.select-box select {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  color: #707070;
+  font-size: 1rem;
+}
+.form button {
+  height: 55px;
+  width: 100%;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgb(62, 29, 225);
+}
+
+
+/* buttons hover */
+.form button:hover {
+  transform: translatey(3px);
+  box-shadow: none;
+  background: rgb(84, 53, 240);
+}
+
+/* buttons hover Animation */
+button:hover {
+  animation: ani9 0.4s ease-in-out infinite alternate;
+}
+/*Responsive*/
+@media screen and (max-width: 500px) {
+  .form .column {
+    flex-wrap: wrap;
+  }
+  
+}
