@@ -2,6 +2,8 @@
 import React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 // import Login from "@/components/Login/Login";
 // <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 //   <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
@@ -39,6 +41,7 @@ export default function RootLayout({
     
         </head>
       <body>
+        <ToastContainer></ToastContainer>
         {children}
       </body>
     </html>

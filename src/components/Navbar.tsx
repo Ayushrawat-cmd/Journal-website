@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import logo from "../../public/img/top-logo.png";
 import {
@@ -43,7 +43,6 @@ const products = [
     href: "#",
     icon: SquaresPlusIcon,
   },
-  
 ];
 const callsToAction = [
   { name: "Watch demo", href: "#", icon: PlayCircleIcon },
@@ -56,7 +55,13 @@ function classNames(...classes: any) {
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const [user, setUser] = useState({token:"null"});
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    if(token){
+      setUser({token: token});
+    }
+  },[]);
   return (
     <header className="bg-white">
       <nav
@@ -67,6 +72,7 @@ export default function Navbar() {
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <Image
+              // className="w-auto"
               src={logo}
               alt="logo"
               width={500}
@@ -84,22 +90,47 @@ export default function Navbar() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        
+        {
+
+            user.token!=="null"?
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
+          <Link
+            href="/signup"
+            className="text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full"
+          >
+            Logout <span aria-hidden="true">&rarr;</span>
+          </Link>
+          </div>
+          :
+          <>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
-          <Link href="/signup" className="text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full">
+          <Link
+            href="/signup"
+            className="text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full"
+          >
             Signup <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
         <div className="hidden lg:flex  lg:justify-end ml-2  ">
-          <Link href="/login" className="text-base font-semibold leading-6 text-white bg-blue-500 border-2 border-blue-500 hover:border-2 hover:border-blue-500 hover:bg-transparent hover:text-black py-2 px-4 rounded-full">
+          <Link
+            href="/login"
+            className="text-base font-semibold leading-6 text-white bg-blue-500 border-2 border-blue-500 hover:border-2 hover:border-blue-500 hover:bg-transparent hover:text-black py-2 px-4 rounded-full"
+            >
             Log in <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
+            </>
+        }
       </nav>
-      <nav className="mx-auto hidden lg:flex container   lg:items-center lg:justify-center lg:p-6 lg:px-8"
-        aria-label="Global">
-      <Popover.Group className="hidden lg:flex lg:gap-x-8">
-        <a href="#" className=" text-base font-semibold leading-6 text-gray-900">
+      <nav
+        className="mx-auto hidden lg:flex container   lg:items-center lg:justify-center lg:p-6 lg:px-8"
+        aria-label="Global"
+      >
+        <Popover.Group className="hidden lg:flex lg:gap-x-8">
+          <a
+            href="#"
+            className=" text-base font-semibold leading-6 text-gray-900"
+          >
             Home
           </a>
           <Popover className="relative">
@@ -146,7 +177,7 @@ export default function Navbar() {
                     </div>
                   ))}
                 </div>
-                <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
+                {/* <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
                   {callsToAction.map((item) => (
                     <a
                       key={item.name}
@@ -160,27 +191,45 @@ export default function Navbar() {
                       {item.name}
                     </a>
                   ))}
-                </div>
+                </div> */}
               </Popover.Panel>
             </Transition>
           </Popover>
 
-          <a href="#" className="text-base font-semibold leading-6 text-gray-900">
+          <a
+            href="#"
+            className="text-base font-semibold leading-6 text-gray-900"
+          >
             Aim & Scope
           </a>
-          <a href="#" className="text-base font-semibold leading-6 text-gray-900">
+          <a
+            href="#"
+            className="text-base font-semibold leading-6 text-gray-900"
+          >
             Editorial Board
           </a>
-          <a href="#" className="text-base font-semibold leading-6 text-gray-900">
+          <a
+            href="#"
+            className="text-base font-semibold leading-6 text-gray-900"
+          >
             Peer Review Process
           </a>
-          <a href="#" className="text-base font-semibold leading-6 text-gray-900">
+          <a
+            href="#"
+            className="text-base font-semibold leading-6 text-gray-900"
+          >
             Reviewer Guidelines
           </a>
-          <a href="#" className="text-base font-semibold leading-6 text-gray-900">
+          <a
+            href="#"
+            className="text-base font-semibold leading-6 text-gray-900"
+          >
             Ethics & Malpractices
           </a>
-          <a href="#" className="text-base font-semibold leading-6 text-gray-900">
+          <a
+            href="#"
+            className="text-base font-semibold leading-6 text-gray-900"
+          >
             Contact Us
           </a>
         </Popover.Group>
@@ -191,97 +240,131 @@ export default function Navbar() {
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
+      <Transition
+      show={mobileMenuOpen}
+        as="div"
+        enter="transition ease-out duration-500"
+                          enterFrom="opacity-0 translate-y-1"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-150"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 translate-y-1"
+      >
         <div className="fixed inset-0 z-10" />
-        <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
-            </a>
-            <button
-              type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-            </button>
-          </div>
-          <div className="mt-6 flow-root">
-            <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                <Disclosure as="div" className="-mx-3">
-                  {({ open }) => (
-                    <>
-                      <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                        Product
-                        <ChevronDownIcon
-                          className={classNames(
-                            open ? "rotate-180" : "",
-                            "h-5 w-5 flex-none"
-                          )}
-                          aria-hidden="true"
-                        />
-                      </Disclosure.Button>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-500"
-                        enterFrom="opacity-0 translate-y-1"
-                        enterTo="opacity-100 translate-y-0"
-                        leave="transition ease-in duration-150"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leaveTo="opacity-0 translate-y-1"
-                      >
-                        <Disclosure.Panel className="mt-2 space-y-2">
-                          {[...products, ...callsToAction].map((item) => (
-                            <Disclosure.Button
-                              key={item.name}
-                              as="a"
-                              href={item.href}
-                              className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                            >
-                              {item.name}
-                            </Disclosure.Button>
-                          ))}
-                        </Disclosure.Panel>
-                      </Transition>
-                    </>
-                  )}
-                </Disclosure>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Features
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Marketplace
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Company
-                </a>
-              </div>
-              <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
+          <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+            <div className="flex items-center justify-between">
+              <a href="#" className="-m-1.5 p-1.5">
+                <span className="sr-only">Your Company</span>
+                <Image alt="logo" src={logo} height={8} width={200}>
+                  
+                </Image>
+              </a>
+              <button
+                type="button"
+                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span className="sr-only">Close menu</span>
+                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              </button>
+            </div>
+            <div className="mt-6 flow-root">
+              <div className="-my-6 divide-y divide-gray-500/10">
+                <div className="space-y-2 py-6">
+                  <Disclosure as="div" className="-mx-3">
+                    {({ open }) => (
+                      <>
+                        <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                          Product
+                          <ChevronDownIcon
+                            className={classNames(
+                              open ? "rotate-180" : "",
+                              "h-5 w-5 flex-none"
+                            )}
+                            aria-hidden="true"
+                          />
+                        </Disclosure.Button>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-500"
+                          enterFrom="opacity-0 translate-y-1"
+                          enterTo="opacity-100 translate-y-0"
+                          leave="transition ease-in duration-150"
+                          leaveFrom="opacity-100 translate-y-0"
+                          leaveTo="opacity-0 translate-y-1"
+                        >
+                          <Disclosure.Panel className="mt-2 space-y-2">
+                            {[...products].map((item) => (
+                              <Disclosure.Button
+                                key={item.name}
+                                as="a"
+                                href={item.href}
+                                className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                              >
+                                {item.name}
+                              </Disclosure.Button>
+                            ))}
+                          </Disclosure.Panel>
+                        </Transition>
+                      </>
+                    )}
+                  </Disclosure>
+
+                  <a
+                    href="#"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Aim & Scope
+                  </a>
+                  <a
+                    href="#"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Editorial Board
+                  </a>
+                  <a
+                    href="#"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Peer Review Process
+                  </a>
+                  <a
+                    href="#"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Reviewer Guidelines
+                  </a>
+                  <a
+                    href="#"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Ethics & Malpractices
+                  </a>
+                  <a
+                    href="#"
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Contact Us
+                  </a>
+                </div>
+                <div className="py-6">
+                  <Link
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    href="/login"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    href="/signup"
+                  >
+                    Signup
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        </Dialog.Panel>
+          </Dialog.Panel>
+        </Transition>
       </Dialog>
     </header>
   );

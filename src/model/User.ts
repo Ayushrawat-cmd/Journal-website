@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
         required:true
     },
     mobile_no:{
-        type: Number,
+        type: String,
         required:true
     },
     email:{
@@ -20,10 +20,11 @@ const UserSchema = new mongoose.Schema({
     },
     city:{
         type: String,
-
+        default:"null"
     },
     state:{
-        type:String
+        type:String,
+        default:"null"
     },
     country:{
         type:String,

@@ -1,52 +1,129 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style1.css";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import useInput from "../custom-hooks/useInput";
+import axios from "axios";
 
 export default function Signup() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [state, setState] = useState("NULL");
+  const [city, setCity] = useState("NULL");
+  const router = useRouter();
+  const {
+    value: emailInputValue,
+    isValid: emailIsValid,
+    hasError: emailHasError,
+    inputValueHandler: emailInputHandler,
+    valueInputBlurHandler: emailBlurHandler,
+    reset: emailReset,
+  } = useInput((value:String) =>{return value.includes("@")});
+  const {
+    value: passwordInputValue,
+    isValid: passwordIsValid,
+    hasError: passwordHasError,
+    inputValueHandler: passwordInputHandler,
+    valueInputBlurHandler: passwordBlurHandler,
+    reset: passwordReset,
+  } = useInput((value:String) =>{return value.length >=5});
+  const {
+    value:fullnameInputValue,
+    isValid:fullnameIsValid,
+    hasError: fullnameHasError,
+    inputValueHandler:fullnameInputHandler,
+    valueInputBlurHandler: fullnameBlurHandler,
+    reset:fullnameReset
+  } = useInput((value:String) =>{return value!==""});
+  const {
+    value:phoneInputValue,
+    isValid:phoneIsValid,
+    hasError: phoneHasError,
+    inputValueHandler:phoneInputHandler,
+    valueInputBlurHandler: phoneBlurHandler,
+    reset:phoneReset
+  } = useInput((value:String) =>{return value!==""});
+  const {
+    value:retypePasswordInputValue,
+    isValid:retypePasswordIsValid,
+    hasError: retypePasswordHasError,
+    inputValueHandler:retypePasswordInputHandler,
+    valueInputBlurHandler: retypePasswordBlurHandler,
+    reset:retypePasswordReset
+  } = useInput((value:String) =>{return value === passwordInputValue});
+  const {
+    value:countryInputValue,
+    isValid:countryIsValid,
+    hasError: countryHasError,
+    inputValueHandler:countryInputHandler,
+    valueInputBlurHandler: countryBlurHandler,
+    reset:countryReset
+  } = useInput((value:String) =>{return value !== ""});
+  const submitHandler= async (event:any)=>{
+    event.preventDefault();
+    if(!passwordIsValid || !emailIsValid || !retypePasswordIsValid || !countryIsValid || !fullnameIsValid || !phoneIsValid)
+        return ;
+    passwordReset();
+    emailReset();
+    retypePasswordReset();
+    countryReset();
+    phoneReset();
+    fullnameReset();
+    const response = await  axios.post('/api/users/signup', {email:emailInputValue,password: passwordInputValue, retypePassword: retypePasswordInputValue, country: countryInputValue, phone: phoneInputValue, fullname: fullnameInputValue, city:city, state: state});
+    console.log(response.data);
+    router.push("/login");
+    // console.log(countryInputValue);
+
+  }
+  const emailClasses = emailHasError?'invalid':'';
+  const passwordClasses = passwordHasError?'invalid':'';
+  const fullnameClasses = fullnameHasError?'invalid':'';
+  const retypePasswordClasses = retypePasswordHasError?'invalid':'';
+  const countryClasses = countryHasError?'invalid':'';
+  const phoneClasses = phoneHasError?'invalid':'';
   return (
     <section className="container">
-      <form action="#" className="form">
+      <form onSubmit={submitHandler} className="form">
         <header className="head-form">
           <h2>Sign Up</h2>
         </header>
         <div className="input-box">
           <label>Full Name</label>
-          <input type="text" placeholder="Enter full name" required />
+          <input className={fullnameClasses} value={fullnameInputValue} onChange={fullnameInputHandler} onBlur={fullnameBlurHandler} type="text" placeholder="Enter full name" required />
         </div>
 
         <div className="input-box">
           <label>Email Address</label>
-          <input type="text" placeholder="Enter email address" required />
+          <input className={emailClasses} value={emailInputValue} onChange={emailInputHandler} onBlur={emailBlurHandler}  type="text" placeholder="Enter email address" required />
         </div>
         <div className="input-box">
           <label>Phone Number</label>
-          <input type="number" placeholder="Enter phone number" required />
+          <input className={phoneClasses} value={phoneInputValue} onChange={phoneInputHandler} onBlur={phoneBlurHandler} type="number" placeholder="Enter phone number" required />
         </div>
         <div className="column">
           <div className="input-box">
             <label>Password</label>
-            <input type="password" placeholder="Enter Your Password" required />
+            <input className={passwordClasses} value={passwordInputValue} onChange={passwordInputHandler} onBlur={passwordBlurHandler} type="password" placeholder="Enter Your Password" required />
           </div>
           <div className="input-box">
             <label>Re-Type Password</label>
-            <input type="password" placeholder="Re-Type Password" required />
+            <input className={retypePasswordClasses} value={retypePasswordInputValue} onChange={retypePasswordInputHandler} onBlur={retypePasswordBlurHandler} type="password" placeholder="Re-Type Password" required />
           </div>
         </div>
         <div className="column">
           <div className="input-box">
             <label>City</label>
-            <input type="text" placeholder="Enter Your City" required />
+            <input onChange={(event)=>{setCity(event.target.value)}} type="text" placeholder="Enter Your City"  />
           </div>
           <div className="input-box">
             <label>State</label>
-            <input type="text" placeholder="Enter Your State" required />
+            <input onChange={(event)=>{setState(event.target.value)}} type="text" placeholder="Enter Your State"  />
           </div>
         </div>
 
         <div className="input-box address">
           <div className="column">
             <div className="select-box">
-              <select>
+              <select className={countryClasses} value={countryInputValue} onChange={countryInputHandler} onBlur={countryBlurHandler}>
                 <option hidden>Country</option>
                 <option value="Afghanistan">Afghanistan</option>
                 <option value="Aland Islands">Aland Islands</option>
@@ -374,7 +451,7 @@ export default function Signup() {
             </div>
           </div>
         </div>
-        <button>Submit</button>
+        <button onClick={submitHandler}>Submit</button>
       </form>
     </section>
   );

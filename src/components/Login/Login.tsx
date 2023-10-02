@@ -1,11 +1,26 @@
+"use client";
 import { useRouter } from "next/navigation";
 import useInput from "../custom-hooks/useInput";
 import "./style.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function Login() {
+  useEffect(() => {
+    toast.info(<p>{"Wow so easy!"}</p>, {
+      position: "top-right",
+      autoClose: false,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      toastId: "info1",
+    });
+  }, []);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const {
@@ -15,7 +30,9 @@ export default function Login() {
     inputValueHandler: emailInputHandler,
     valueInputBlurHandler: emailBlurHandler,
     reset: emailReset,
-  } = useInput((value:String) =>{return value.includes("@")});
+  } = useInput((value: String) => {
+    return value.includes("@");
+  });
   const {
     value: passwordInputValue,
     isValid: passwordIsValid,
@@ -23,24 +40,40 @@ export default function Login() {
     inputValueHandler: passwordInputHandler,
     valueInputBlurHandler: passwordBlurHandler,
     reset: passwordReset,
-  } = useInput((value:String) =>{return value.length >=5});
-  const submitHandler= async (event:any)=>{
+  } = useInput((value: String) => {
+    return value.length >= 5;
+  });
+  const submitHandler = async (event: any) => {
     event.preventDefault();
-    if(!passwordIsValid || !emailIsValid)
-        return ;
+    if (!passwordIsValid || !emailIsValid) return;
     passwordReset();
     emailReset();
-    const response = await  axios.post('/api/users/login', {emailInputValue, passwordInputValue});
-    console.log(response.data);
+    const res = await toast.promise(
+      axios.post("/api/users/login", {
+        email: emailInputValue,
+        password: passwordInputValue,
+      }),
+      {
+        pending: "Logging in",
+        success: "You're logged in!",
+        error: "Not logged in",
+      }
+    );
+    // const res = await
+    // console.log(res.data);
+    if (res.data.success) {
+      localStorage.setItem("token", res.data.token);
+    }
     router.push("/");
-
-  }
-  const emailClasses = emailHasError?'form-input invalid':'form-input';
-  const passwordClasses = passwordHasError?'form-input invalid':'form-input';
+  };
+  const emailClasses = emailHasError ? "form-input invalid" : "form-input";
+  const passwordClasses = passwordHasError
+    ? "form-input invalid"
+    : "form-input";
   return (
-    <section className='container'>
-    <form onSubmit={submitHandler}>
-      {/* <!-- LOGN IN FORM by Omar Dsoky --> */}
+    <section className="container">
+      <form>
+        {/* <!-- LOGN IN FORM by Omar Dsoky --> */}
         {/* <!--   con = Container  for items in the form--> */}
         <div className="con">
           {/* <!--     Start  header Content  --> */}
@@ -58,9 +91,9 @@ export default function Login() {
             </span>
             {/* <!--   user name Input--> */}
             <input
-            onChange={emailInputHandler}
-            value={emailInputValue}
-            onBlur={emailBlurHandler}
+              onChange={emailInputHandler}
+              value={emailInputValue}
+              onBlur={emailBlurHandler}
               className={emailClasses}
               id="txt-input"
               type="text"
@@ -77,9 +110,9 @@ export default function Login() {
             </span>
             {/* <!--   Password Input--> */}
             <input
-            value={passwordInputValue}
-            onBlur={passwordBlurHandler}
-            onChange={passwordInputHandler}
+              value={passwordInputValue}
+              onBlur={passwordBlurHandler}
+              onChange={passwordInputHandler}
               className={passwordClasses}
               type={showPassword ? "text" : "password"}
               placeholder="Password"
@@ -87,7 +120,6 @@ export default function Login() {
               name="password"
               required
             ></input>
-
             {/* <!--      Show/hide password  --> */}
             <span>
               <i
@@ -104,28 +136,31 @@ export default function Login() {
             <br></br>
             {/* <!--        buttons -->
         <!--      button LogIn --> */}
-            <button className="log-in"> Log In </button>
+            <button onClick={submitHandler} className="log-in">
+              {" "}
+              Log In{" "}
+            </button>
           </div>
 
           {/* <!--   other buttons --> */}
           <div className="other">
-            <div className="social">
+            {/* <div className="social">
               <div className="go">
                 <i className="fab fa-google"></i> Google
               </div>
               <div className="fb">
                 <i className="fab fa-facebook"></i> Facebook
               </div>
-            </div>
+            </div> */}
             {/* <!--      Forgot Password button--> */}
             <button className="btn submits frgt-pass">Forgot Password</button>
             {/* <!--     Sign Up button --> */}
             <Link href="/signup">
-            <button className="btn submits sign-up">
-              New User? <br></br>Sign Up
-              {/* <!--         Sign Up font icon --> */}
-              <i className="fa fa-user-plus" aria-hidden="true"></i>
-            </button>
+              <button className="btn submits sign-up">
+                New User? <br></br>Sign Up
+                {/* <!--         Sign Up font icon --> */}
+                <i className="fa fa-user-plus" aria-hidden="true"></i>
+              </button>
             </Link>
           </div>
         </div>

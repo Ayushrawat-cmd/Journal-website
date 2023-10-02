@@ -16,9 +16,7 @@ background-image: linear-gradient(to top, #f2e1fb 0%, #f4d4f9 100%);
 background-attachment: fixed;
   background-repeat: no-repeat;
 
-    font-family: 'Poppins';
-/*   the main font */
-    font-family: 'Poppins', sans-serif;
+  font-family: 'Playfair Display', serif;
 /* opacity: .95; */
 animation: bodyTranslate 0.4s ease-in-out forwards ;
 
@@ -124,7 +122,7 @@ input.form-input{
     margin-top: 2%;
     padding: 15px;
     
-    font-size: 16px;
+    font-size: 1rem;
     font-family: 'Abel', sans-serif;
     color: #5E6472;
   
@@ -157,7 +155,7 @@ input:focus.invalid {
 
 /* input[type="text"] {min-width: 250px;} */
 /* buttons  */
-button {
+.log-in,.sign-up,.frgt-pass {
     display: inline-block;
     color: #252537;
   
