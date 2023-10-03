@@ -13,6 +13,6 @@ export async function GET(request: NextRequest){
         return response;
     }
     catch(error:any){
-        NextResponse.json({error: error.message}, {status:500});
+        return NextResponse.json({error: error.message}, {status:500});
     }
 }
