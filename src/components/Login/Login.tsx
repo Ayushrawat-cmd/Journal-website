@@ -8,19 +8,6 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 
 export default function Login() {
-  useEffect(() => {
-    toast.info(<p>{"Wow so easy!"}</p>, {
-      position: "top-right",
-      autoClose: false,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      toastId: "info1",
-    });
-  }, []);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const {

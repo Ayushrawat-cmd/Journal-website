@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useInput from "../custom-hooks/useInput";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -68,8 +69,16 @@ export default function Signup() {
     countryReset();
     phoneReset();
     fullnameReset();
-    const response = await  axios.post('/api/users/signup', {email:emailInputValue,password: passwordInputValue, retypePassword: retypePasswordInputValue, country: countryInputValue, phone: phoneInputValue, fullname: fullnameInputValue, city:city, state: state});
-    console.log(response.data);
+    const res = await toast.promise(
+      axios.post('/api/users/signup', {email:emailInputValue,password: passwordInputValue, retypePassword: retypePasswordInputValue, country: countryInputValue, phone: phoneInputValue, fullname: fullnameInputValue, city:city, state: state}),
+      {
+        pending: "Registering",
+        success: "Successfully registered!",
+        error: "Not registered",
+      }
+    );
+    // const response = await  axios.post('/api/users/signup', {email:emailInputValue,password: passwordInputValue, retypePassword: retypePasswordInputValue, country: countryInputValue, phone: phoneInputValue, fullname: fullnameInputValue, city:city, state: state});
+    // console.log(response.data);
     router.push("/login");
     // console.log(countryInputValue);
 

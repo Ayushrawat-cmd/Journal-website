@@ -2,6 +2,8 @@ import "./globals.css";
 import React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 import Head from "next/head";
 import Script from "next/script";
 // <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -36,7 +38,9 @@ export default function RootLayout({
       <meta content="width=device-width, initial-scale=1.0" name="viewport"></meta>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></link>
         </head>
-      <body>{children}
+      <body>
+        <ToastContainer/>
+        {children}
       </body>
     </html>
   );

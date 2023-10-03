@@ -17,6 +17,8 @@ import {
 } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const products = [
   {
@@ -55,13 +57,49 @@ function classNames(...classes: any) {
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState({token:"null"});
-  useEffect(()=>{
+  const [user, setUser] = useState({ token: "null" });
+  useEffect(() => {
     const token = localStorage.getItem("token");
-    if(token){
-      setUser({token: token});
+    if (token) {
+      setUser({ token: token });
     }
-  },[]);
+  }, []);
+  // console.log(user.token);
+  const onLogout = async () => {
+    try {
+      const res = await axios.get("/api/users/logout");
+      console.log(res.data);
+      if (res.data.success) {
+        localStorage.setItem("token", "");
+        setUser({ token: "null" });
+        toast.success("Logged Out!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          // toastId: "info1",
+        });
+      } else {
+        throw new Error("Not able to log out");
+      }
+    } catch (error) {
+      toast.error("Some error occurred!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      console.log(error);
+    }
+  };
   return (
     <header className="bg-white">
       <nav
@@ -90,37 +128,35 @@ export default function Navbar() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        {
-
-            user.token!=="null"?
-            <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
-          <Link
-            href="/signup"
-            className="text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full"
-          >
-            Logout <span aria-hidden="true">&rarr;</span>
-          </Link>
-          </div>
-          :
-          <>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
-          <Link
-            href="/signup"
-            className="text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full"
-          >
-            Signup <span aria-hidden="true">&rarr;</span>
-          </Link>
-        </div>
-        <div className="hidden lg:flex  lg:justify-end ml-2  ">
-          <Link
-            href="/login"
-            className="text-base font-semibold leading-6 text-white bg-blue-500 border-2 border-blue-500 hover:border-2 hover:border-blue-500 hover:bg-transparent hover:text-black py-2 px-4 rounded-full"
+        {user.token !== "null" ? (
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
+            <button
+              onClick={onLogout}
+              className="text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full"
             >
-            Log in <span aria-hidden="true">&rarr;</span>
-          </Link>
-        </div>
-            </>
-        }
+              Logout <span aria-hidden="true">&rarr;</span>
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
+              <Link
+                href="/signup"
+                className="text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full"
+              >
+                Signup <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </div>
+            <div className="hidden lg:flex  lg:justify-end ml-2  ">
+              <Link
+                href="/login"
+                className="text-base font-semibold leading-6 text-white bg-blue-500 border-2 border-blue-500 hover:border-2 hover:border-blue-500 hover:bg-transparent hover:text-black py-2 px-4 rounded-full"
+              >
+                Log in <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </div>
+          </>
+        )}
       </nav>
       <nav
         className="mx-auto hidden lg:flex container   lg:items-center lg:justify-center lg:p-6 lg:px-8"
@@ -240,24 +276,22 @@ export default function Navbar() {
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
       >
-      <Transition
-      show={mobileMenuOpen}
-        as="div"
-        enter="transition ease-out duration-500"
-                          enterFrom="opacity-0 translate-y-1"
-                          enterTo="opacity-100 translate-y-0"
-                          leave="transition ease-in duration-150"
-                          leaveFrom="opacity-100 translate-y-0"
-                          leaveTo="opacity-0 translate-y-1"
-      >
-        <div className="fixed inset-0 z-10" />
+        <Transition
+          show={mobileMenuOpen}
+          as="div"
+          enter="transition ease-out duration-500"
+          enterFrom="opacity-0 translate-y-1"
+          enterTo="opacity-100 translate-y-0"
+          leave="transition ease-in duration-150"
+          leaveFrom="opacity-100 translate-y-0"
+          leaveTo="opacity-0 translate-y-1"
+        >
+          <div className="fixed inset-0 z-10" />
           <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
-                <Image alt="logo" src={logo} height={8} width={200}>
-                  
-                </Image>
+                <Image alt="logo" src={logo} height={8} width={200}></Image>
               </a>
               <button
                 type="button"
@@ -348,18 +382,29 @@ export default function Navbar() {
                   </a>
                 </div>
                 <div className="py-6">
-                  <Link
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    href="/login"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    href="/signup"
-                  >
-                    Signup
-                  </Link>
+                  {user.token !== "null" ? (
+                    <button
+                      onClick={onLogout}
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    >
+                      Logout
+                    </button>
+                  ) : (
+                    <>
+                      <Link
+                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                        href="/login"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                        href="/signup"
+                      >
+                        Signup
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
