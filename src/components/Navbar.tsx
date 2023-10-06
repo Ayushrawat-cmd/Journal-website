@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
-import logo from "../../public/img/top-logo.png";
 import {
   ArrowPathIcon,
   Bars3Icon,
@@ -110,8 +109,8 @@ export default function Navbar() {
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <Image
-              // className="w-auto"
-              src={logo}
+              className=" w-96"
+              src="/img/top-logo.png"
               alt="logo"
               width={500}
               height={200}
@@ -129,7 +128,12 @@ export default function Navbar() {
           </button>
         </div>
         {user.token !== "null" ? (
+          <>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
+            
+          <div className=" self-center mx-5 relative w-10 h-10 overflow-hidden bg-black rounded-full dark:bg-gray-600">
+          <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+      </div>
             <button
               onClick={onLogout}
               className="text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full"
@@ -137,6 +141,7 @@ export default function Navbar() {
               Logout <span aria-hidden="true">&rarr;</span>
             </button>
           </div>
+          </>
         ) : (
           <>
             <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
@@ -291,7 +296,7 @@ export default function Navbar() {
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
-                <Image alt="logo" src={logo} height={8} width={200}></Image>
+                <Image alt="logo" src="/img/top-logo.png" height={8} width={200}></Image>
               </a>
               <button
                 type="button"
@@ -385,7 +390,7 @@ export default function Navbar() {
                   {user.token !== "null" ? (
                     <button
                       onClick={onLogout}
-                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                      className="-mx-3 w-screen text-left block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                     >
                       Logout
                     </button>
