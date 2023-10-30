@@ -35,23 +35,30 @@ export default function Login() {
     if (!passwordIsValid || !emailIsValid) return;
     passwordReset();
     emailReset();
-    const res = await toast.promise(
-      axios.post("/api/users/login", {
-        email: emailInputValue,
-        password: passwordInputValue,
-      }),
-      {
-        pending: "Logging in",
-        success: "You're logged in!",
-        error: "Not logged in",
+    try{
+      const res = await toast.promise(
+        axios.post("/api/users/login", {
+          email: emailInputValue,
+          password: passwordInputValue,
+        }),
+        {
+          pending: "Logging in",
+          success: "You're logged in!",
+          error: "Not logged in",
+        }
+      );
+      // const res = await
+      // console.log(res.data);
+      if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
+        router.push("/dashboard");
       }
-    );
-    // const res = await
-    // console.log(res.data);
-    if (res.data.success) {
-      localStorage.setItem("token", res.data.token);
+
+
     }
-    router.push("/");
+    catch(error){
+      console.log(error.message); 
+    }
   };
   const emailClasses = emailHasError ? "form-input invalid" : "form-input";
   const passwordClasses = passwordHasError

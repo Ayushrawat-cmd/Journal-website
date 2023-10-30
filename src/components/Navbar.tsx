@@ -18,6 +18,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const products = [
   {
@@ -54,9 +55,10 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar() {
+export default function Navbar(props:{admin:Boolean}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState({ token: "null" });
+  const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -82,6 +84,7 @@ export default function Navbar() {
           theme: "light",
           // toastId: "info1",
         });
+        router.push("/");
       } else {
         throw new Error("Not able to log out");
       }
@@ -129,18 +132,39 @@ export default function Navbar() {
         </div>
         {user.token !== "null" ? (
           <>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
-            
-          <div className=" self-center mx-5 relative w-10 h-10 overflow-hidden bg-black rounded-full dark:bg-gray-600">
-          <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
-      </div>
-            <button
-              onClick={onLogout}
-              className="text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full"
-            >
-              Logout <span aria-hidden="true">&rarr;</span>
-            </button>
-          </div>
+            <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
+            <Popover className="relative mr-4 ">
+            <Popover.Button className="flex items-center gap-x-1 text-base font-semibold leading-6 outline-none">
+              {/* Author Guidelines */}
+              <div className=" self-center  relative w-10 h-10 overflow-hidden bg-black rounded-full dark:bg-gray-600">
+                <svg
+                  className="absolute w-12 h-12 text-gray-400 -left-1"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                  >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clipRule="evenodd"
+                    ></path>
+                </svg>
+              </div>
+              <ChevronDownIcon
+                className="h-5 w-5 flex-none text-black-400 "
+                aria-hidden="true"
+                />
+              
+                  </Popover.Button>
+              
+            </Popover>
+              <button
+                onClick={onLogout}
+                className=" text-base font-semibold leading-6 text-black border-blue-500 border-2 hover:bg-blue-500 hover:text-white py-2 px-4 rounded-full"
+              >
+                Logout <span aria-hidden="true">&rarr;</span>
+              </button>
+            </div>
           </>
         ) : (
           <>
@@ -296,7 +320,12 @@ export default function Navbar() {
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
-                <Image alt="logo" src="/img/top-logo.png" height={8} width={200}></Image>
+                <Image
+                  alt="logo"
+                  src="/img/top-logo.png"
+                  height={8}
+                  width={200}
+                ></Image>
               </a>
               <button
                 type="button"
