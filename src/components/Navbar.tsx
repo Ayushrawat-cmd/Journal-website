@@ -68,7 +68,7 @@ export default function Navbar(props:{admin:Boolean}) {
   // console.log(user.token);
   const onLogout = async () => {
     try {
-      const res = await axios.get("/api/users/logout");
+      const res = await axios.post("/api/users/logout");
       console.log(res.data);
       if (res.data.success) {
         localStorage.setItem("token", "");
