@@ -2,24 +2,28 @@
 import { useState } from "react";
 import axios from "axios";
 // import {v2 as cloudinary} from 'cloudinary';
-import {AdvancedImage} from "@cloudinary/react"
 import { Cloudinary } from "@cloudinary/url-gen";
 import {thumbnail} from "@cloudinary/url-gen/actions/resize";
 import {byRadius} from "@cloudinary/url-gen/actions/roundCorners";
 import {focusOn} from "@cloudinary/url-gen/qualifiers/gravity";
 import {FocusOn} from "@cloudinary/url-gen/qualifiers/focusOn";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export default function UploadForm() {
   const cld = new Cloudinary({ cloud: { cloudName: "dgnihsqar" }, url:{secure:true} });
-
+  const router = useRouter();
   const [file, setFile] = useState(null);
   const [filename, setFilename] = useState("");
   const [researchName, setResearchName] = useState("");
+  const [disabled, setDisable] = useState(false);
   const handleFileChange = (event: any) => {
-    console.log(event.target.files[0]);
-    setFile(event.target.files[0]);
-    setFilename(event.target.files[0].name);
+    if(event.target.files[0]){
+      console.log(event.target.files[0]);
+      setFile(event.target.files[0]);
+      setFilename(event.target.files[0].name);
+
+    }
   };
   const mypdf = cld.image("nextjs-paper/ajfntv5aa4r5jg0z8v0u.png");
 
@@ -27,9 +31,13 @@ export default function UploadForm() {
   .roundCorners(byRadius(20));
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    
+    if(!file || !researchName)
+      return;
+    console.log(file,researchName)
     try {
+      setDisable(true);
       const formData = new FormData();
+
       formData.append('file', file!);
       formData.append('upload_preset','kmvyrklh');
       const response = await axios.post(
@@ -49,6 +57,8 @@ export default function UploadForm() {
           error: "Submission failed!",
         }
       );
+      setDisable(true);
+      router.push("/dashboard");
         console.log(res.data);
     } catch (error) {
       console.error(error);
@@ -68,7 +78,7 @@ export default function UploadForm() {
     {/* <!-- component --> */}
   return (
 // {/* <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> */}
-<div className="relative min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 bg-gray-500 bg-no-repeat bg-cover relative items-center"
+<div className="relative min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-500 bg-no-repeat bg-cover  "
 	style={{"backgroundImage": "url(/img/about.jpg"}}>
 	<div className="absolute bg-black opacity-60 inset-0 z-0"></div>
 	<div className="sm:max-w-lg w-full p-10 bg-white rounded-xl z-10">
@@ -87,16 +97,16 @@ export default function UploadForm() {
                                     <label className="text-sm font-bold text-gray-500 tracking-wide">Attach Document</label>
                         <div className="flex items-center justify-center w-full">
                             <label className="flex flex-col rounded-lg border-4 border-dashed w-full h-60 p-10 group text-center">
-                                <div className="h-full w-full text-center flex flex-col items-center justify-center items-center  ">
+                                <div className="h-full w-full text-center flex flex-col items-center justify-center   ">
                                     {/* <!---<svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-blue-400 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                     </svg>--> */}
                                     <div className="flex flex-auto max-h-48 w-2/5 mx-auto -mt-10">
                                     <img style={{"position":"absolute","clip": "rect(10px, 150px, 130px, 10px)"}} className="has-mask h-36 object-center" src="https://img.freepik.com/free-vector/image-upload-concept-landing-page_52683-27130.jpg?size=338&ext=jpg" alt="freepik image"></img>
                                     </div>
-                                    <p className="pointer-none text-gray-500 "><span className="text-sm">Drag and drop</span> files here <br /> or <a onChange={handleFileChange} type="file" className="text-blue-600 hover:underline">select a file</a> from your computer</p>
+                                    {!filename ?<p className="  text-gray-500 "><span className="text-sm">Drag and drop</span> files here <br /> or <a onChange={handleFileChange} type="file" className="text-blue-600 cursor-pointer hover:underline">select a file</a> from your computer</p>:<p>{filename}</p>}
                                 </div>
-                                <input type="file" onChange={handleFileChange} className="hidden"/>
+                                {!filename && <input type="file" onChange={handleFileChange} className="hidden"/>}
                             </label>
                         </div>
                     </div>
@@ -104,8 +114,8 @@ export default function UploadForm() {
                                 <span>File type: doc,pdf,types of images</span>
                             </p>
                     <div>
-                        <button type="submit" className="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full tracking-wide
-                                    font-semibold  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300">
+                        <button disabled={disabled} onClick={handleSubmit} type="submit" className="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4  rounded-full tracking-wide
+                                    font-semibold disabled:opacity-25 disabled:hover:cursor-default disabled:hover:bg-blue-500  focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-lg cursor-pointer transition ease-in duration-300">
                         Upload
                     </button>
                     </div>

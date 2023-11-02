@@ -51,7 +51,12 @@ export default function Login() {
       // console.log(res.data);
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
-        router.push("/dashboard");
+        if(emailInputValue === "ayushrawat324@gmail.com"){
+          localStorage.setItem("admin", "true");
+          router.push("/dashboard/admin");  
+        }
+        else
+          router.push("/dashboard");
       }
 
 

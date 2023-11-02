@@ -18,11 +18,12 @@ export default function AuthorDashboard(){
           const res =await axios.get("/api/dashboard/admin");
           setLoading(false);
           setPapers(res.data.papers);
-          console.log(res.data.papers);
+          // await localStorage.setItem("admin", "true");
+          // console.log(res.data.papers);
         }
         catch(error){
-            router.replace("/dashboard");
           console.log(error);
+            router.replace("/dashboard");
 
         }
       }
@@ -30,7 +31,7 @@ export default function AuthorDashboard(){
     },[]);
     return(
         <>
-        <Navbar admin={true}></Navbar>
+        <Navbar ></Navbar>
         
         <Dashboard loading = {loading} papers={papers} admin ={true}></Dashboard>
         </>

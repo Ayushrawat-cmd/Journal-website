@@ -17,7 +17,7 @@ export async function GET(request:NextRequest){
         return NextResponse.json({message:"Papers found!", papers});
     }
     catch(error:any){
-        console.log(error);
+        console.log(error.message);
         return NextResponse.json({error:error.message},{status:401});
     }
 }
@@ -38,7 +38,9 @@ export async function PUT(request:NextRequest) {
         return NextResponse.json({message:"Papers found!", paper});
     }
     catch(error:any){
-        console.log(error);
+        console.log(error.message);
+        if(error.message !== "Not authorized")
+            return NextResponse.redirect(new URL("/", request.nextUrl));
         return NextResponse.json({error:error.message},{status:401});
     }
 }

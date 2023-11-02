@@ -81,9 +81,10 @@ export default function Dashboard(props: {
         status:action.get(paper_id)
       });
       console.log(res);
-      router.refresh();
+      // router.refresh();
     }
     catch(error){
+      router.replace("/");
       console.log(error);
 
     }
@@ -95,9 +96,7 @@ export default function Dashboard(props: {
     console.log(action);
     // console.log(action.get("653c0334675da8fae369e3e2"));
   }
-  // const disableHandler = (event)=>{
-  //   console.log()
-  // }
+  
   return (
     <div className="bg-white p-8 rounded-md w-full">
       <div className=" flex items-center justify-between pb-6">
@@ -108,7 +107,7 @@ export default function Dashboard(props: {
           {/* <span className="text-xs">All products item</span> */}
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex bg-gray-50 items-center p-2 rounded-md">
+          {/* <div className="flex bg-gray-50 items-center p-2 rounded-md">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-400"
@@ -128,7 +127,7 @@ export default function Dashboard(props: {
               id=""
               placeholder="search..."
             />
-          </div>
+          </div> */}
           <div className="lg:ml-40 ml-10 space-x-8">
             <button
               onClick={() => {
@@ -144,8 +143,8 @@ export default function Dashboard(props: {
       </div>
       <div>
         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-          <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-            <table className="min-w-full leading-normal">
+          <div className="inline-block sm:min-w-full w-max shadow rounded-lg overflow-hidden">
+            <table className="sm:min-w-full leading-normal">
               <thead>
                 <tr>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -242,7 +241,7 @@ export default function Dashboard(props: {
                           {paper.name}
                         </p>
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b w-max border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">
                           {date.toDateString()}
                         </p>
@@ -284,7 +283,7 @@ export default function Dashboard(props: {
                           <option value="Published">Published</option>
                         </select>
                         <button
-                        // disabled={action.get(paper._id) === 'NULL'}
+                        // disabled={true}
                         // {action === "NULL" && disabled}
                         a-key={paper._id}
                         key={paper._id}
@@ -413,7 +412,7 @@ export default function Dashboard(props: {
                 </tr> */}
               </tbody>
             </table>
-            <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+            {/* <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
               <span className="text-xs xs:text-sm text-gray-900">
                 Showing 1 to 4 of 50 Entries
               </span>
@@ -426,7 +425,7 @@ export default function Dashboard(props: {
                   Next
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
