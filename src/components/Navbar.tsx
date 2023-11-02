@@ -501,6 +501,12 @@ export default function Navbar() {
                 <div className="py-6">
                   {user.token !== "null" ? (
                     <>
+                    {isAdmin && <Link
+                    href="/dashboard/admin"
+                    className="-mx-3 w-screen text-left block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Admin Dashboard
+                  </Link>}
                     <Link
                     href="/dashboard"
                     className="-mx-3 w-screen text-left block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
